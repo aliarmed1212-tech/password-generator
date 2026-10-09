@@ -1,0 +1,3099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f2ed" />
+  <title>PebbleKey — Secure Password Generator</title>
+
+  <style>
+    /* =========================================
+       PEBBLEKEY — CLAY DESIGN SYSTEM
+    ========================================= */
+
+    :root {
+      --bg: #f5f2ed;
+      --surface: #fbf9f5;
+      --surface-2: #f0ede6;
+      --ink: #30362f;
+      --muted: #85877d;
+      --green: #687c60;
+      --green-dark: #52654b;
+      --green-soft: #e2e9dc;
+      --lavender: #e7e0f1;
+      --peach: #f3ded2;
+      --yellow: #f2e7bf;
+      --line: rgba(69, 75, 61, 0.10);
+      --shadow:
+        12px 12px 26px rgba(78, 76, 62, 0.09),
+        -10px -10px 24px rgba(255, 255, 255, 0.85);
+      --shadow-small:
+        6px 6px 13px rgba(78, 76, 62, 0.09),
+        -5px -5px 12px rgba(255, 255, 255, 0.9);
+      --shadow-pressed:
+        inset 4px 4px 8px rgba(78, 76, 62, 0.09),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.85);
+      --radius: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(
+          circle at 7% 12%,
+          rgba(226, 233, 220, 0.8),
+          transparent 27rem
+        ),
+        radial-gradient(
+          circle at 92% 60%,
+          rgba(231, 224, 241, 0.65),
+          transparent 28rem
+        ),
+        var(--bg);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(104, 124, 96, 0.40);
+      outline-offset: 4px;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    ::selection {
+      background: #dce7d5;
+      color: #30362f;
+    }
+
+    .app {
+      width: min(1160px, calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .topbar {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--green);
+      border-radius: 15px;
+      box-shadow:
+        5px 5px 10px rgba(68, 88, 62, 0.22),
+        -4px -4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    .brand-mark svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .brand-name span {
+      color: var(--green);
+    }
+
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 15px;
+      border: 1px solid rgba(104, 124, 96, 0.12);
+      border-radius: 999px;
+      background: rgba(251, 249, 245, 0.75);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .privacy-dot {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #6ca76c;
+      box-shadow: 0 0 0 4px rgba(108, 167, 108, 0.13);
+    }
+
+    /* =========================================
+       HERO
+    ========================================= */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 0.93fr 1.07fr;
+      align-items: center;
+      gap: clamp(34px, 6vw, 78px);
+      padding: 66px 0 62px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 23px;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-icon {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      font-size: 15px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 560px;
+      font-size: clamp(40px, 5.4vw, 68px);
+      font-weight: 850;
+      line-height: 1.03;
+      letter-spacing: -3.8px;
+    }
+
+    .hero h1 em {
+      color: var(--green);
+      font-style: normal;
+    }
+
+    .hero-description {
+      max-width: 440px;
+      margin: 24px 0 0;
+      color: #77796f;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .feature-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      color: var(--green);
+      font-size: 16px;
+    }
+
+    .feature small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 450;
+    }
+
+    /* =========================================
+       CLAY SURFACES
+    ========================================= */
+
+    .generator-card {
+      position: relative;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 30px;
+      background: rgba(251, 249, 245, 0.86);
+      box-shadow:
+        18px 20px 46px rgba(74, 72, 61, 0.11),
+        -12px -12px 30px rgba(255, 255, 255, 0.82);
+      animation: cardEnter 650ms cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .generator-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      border-radius: 99px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.95),
+        transparent
+      );
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 23px;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-heading-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: var(--green-dark);
+      background: var(--green-soft);
+      box-shadow: var(--shadow-small);
+    }
+
+    .card-heading-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .card-heading h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 850;
+      letter-spacing: -0.35px;
+    }
+
+    .card-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .ready-pill {
+      padding: 7px 10px;
+      border-radius: 99px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    /* =========================================
+       PASSWORD DISPLAY
+    ========================================= */
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 11px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sub-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .password-display {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(100, 110, 91, 0.06);
+      border-radius: 18px;
+      background: #f0eee8;
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .password-input {
+      min-width: 0;
+      width: 100%;
+      height: 43px;
+      padding: 0 5px;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #3b4c35;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.4px;
+    }
+
+    .password-input:focus-visible {
+      outline: 2px solid rgba(104, 124, 96, 0.35);
+      outline-offset: 0;
+      border-radius: 5px;
+    }
+
+    .icon-button {
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
+      color: var(--green-dark);
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+      transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .icon-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .icon-button:active {
+      transform: translateY(1px);
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .icon-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* =========================================
+       STRENGTH METER
+    ========================================= */
+
+    .strength-box {
+      margin-top: 21px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .strength-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+
+    .strength-caption {
+      color: #77796f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .strength-status {
+      font-size: 11px;
+      font-weight: 850;
+      color: var(--green-dark);
+    }
+
+    .meter-track {
+      width: 100%;
+      height: 7px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .meter-segment {
+      height: 100%;
+      flex: 1;
+      border-radius: 99px;
+      background: #e9e7df;
+      transition:
+        background 250ms ease,
+        transform 250ms ease;
+    }
+
+    .meter-segment.active {
+      background: #9cad8c;
+    }
+
+    .meter-segment.active[data-level="1"] {
+      background: #cf7a69;
+    }
+
+    .meter-segment.active[data-level="2"] {
+      background: #d8b464;
+    }
+
+    .meter-segment.active[data-level="3"] {
+      background: #a0b27f;
+    }
+
+    .meter-segment.active[data-level="4"] {
+      background: #5c8256;
+    }
+
+    .strength-detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       LENGTH CONTROL
+    ========================================= */
+
+    .controls-section {
+      margin-top: 25px;
+    }
+
+    .length-number {
+      min-width: 43px;
+      padding: 7px 10px;
+      text-align: center;
+      border-radius: 11px;
+      background: var(--lavender);
+      color: #63587d;
+      box-shadow: var(--shadow-small);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .range-wrap {
+      padding: 4px 2px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 7px;
+      margin: 15px 0 8px;
+      border-radius: 99px;
+      background: #e4e1d9;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      width: 23px;
+      height: 23px;
+      border: 4px solid var(--surface);
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow:
+        3px 4px 8px rgba(60, 75, 53, 0.22),
+        -2px -2px 5px white;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 4px solid var(--surface);
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       CHARACTER OPTIONS
+    ========================================= */
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 19px;
+    }
+
+    .option {
+      min-width: 0;
+      position: relative;
+    }
+
+    .option input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .option label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 55px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.83);
+      border-radius: 15px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+      transition:
+        transform 150ms ease,
+        box-shadow 150ms ease,
+        background 150ms ease;
+    }
+
+    .option label:hover {
+      transform: translateY(-1px);
+    }
+
+    .option input:checked + label {
+      background: #edf1e8;
+      box-shadow: var(--shadow-pressed);
+      border-color: rgba(104, 124, 96, 0.12);
+    }
+
+    .option input:focus-visible + label {
+      outline: 3px solid rgba(104, 124, 96, 0.35);
+      outline-offset: 2px;
+    }
+
+    .fake-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d9d9cf;
+      border-radius: 7px;
+      background: #f7f5f0;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      transition: all 150ms ease;
+    }
+
+    .option input:checked + label .fake-check {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .option-name {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .option-detail {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       CLAY BUTTONS
+    ========================================= */
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .clay-button {
+      min-height: 55px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 19px;
+      border: 1px solid rgba(255, 255, 255, 0.80);
+      border-radius: 17px;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow-small);
+      font-size: 12px;
+      font-weight: 850;
+      cursor: pointer;
+      transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        filter 160ms ease;
+    }
+
+    .clay-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.015);
+    }
+
+    .clay-button:active {
+      transform: translateY(2px) scale(0.99);
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .clay-button svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .primary-button {
+      color: white;
+      background: var(--green);
+      box-shadow:
+        7px 8px 15px rgba(79, 101, 71, 0.24),
+        -4px -4px 11px rgba(255, 255, 255, 0.92);
+    }
+
+    .primary-button:hover {
+      background: #5e7456;
+    }
+
+    .secondary-button {
+      min-width: 100px;
+      background: var(--lavender);
+      color: #5c5272;
+    }
+
+    /* =========================================
+       EXTRAS / NOTICES
+    ========================================= */
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-top: 20px;
+      padding: 14px 15px;
+      border: 1px solid rgba(104, 124, 96, 0.09);
+      border-radius: 15px;
+      background: #edf0e7;
+      color: #596650;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .notice svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .notice strong {
+      font-weight: 850;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 24px;
+      bottom: 24px;
+      max-width: calc(100vw - 32px);
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      background: #354531;
+      color: white;
+      box-shadow: 0 12px 35px rgba(38, 49, 34, 0.25);
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: 220ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 0 32px;
+      border-top: 1px solid var(--line);
+      color: #8a8b80;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .footer strong {
+      color: #636c5b;
+    }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 43px;
+        padding: 48px 0;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+      }
+
+      .hero-description {
+        max-width: 560px;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .generator-card {
+        width: min(570px, 100%);
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .app {
+        width: calc(100% - 28px);
+      }
+
+      .topbar {
+        min-height: 72px;
+      }
+
+      .brand {
+        gap: 9px;
+        font-size: 18px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+        border-radius: 13px;
+      }
+
+      .privacy-badge {
+        padding: 9px 10px;
+        font-size: 9px;
+      }
+
+      .hero {
+        padding: 43px 0 34px;
+        gap: 35px;
+      }
+
+      .hero h1 {
+        font-size: clamp(39px, 11vw, 53px);
+        letter-spacing: -2.6px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        margin-top: 25px;
+      }
+
+      .generator-card {
+        padding: 19px;
+        border-radius: 24px;
+      }
+
+      .card-header {
+        gap: 8px;
+      }
+
+      .ready-pill {
+        font-size: 9px;
+        padding: 7px 8px;
+      }
+
+      .password-input {
+        font-size: 11px;
+      }
+
+      .options-grid {
+        gap: 9px;
+      }
+
+      .option label {
+        gap: 7px;
+        padding: 10px 8px;
+      }
+
+      .option-name {
+        font-size: 10px;
+      }
+
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .secondary-button {
+        width: 100%;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 19px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="PebbleKey home"
+         style="text-decoration:none;color:inherit;">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="3"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+            <path d="M12 14v3"></path>
+          </svg>
+        </span>
+        <span class="brand-name">pebble<span>key</span></span>
+      </a>
+
+      <div class="privacy-badge">
+        <span class="privacy-dot"></span>
+        LOCAL GENERATION
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="hero">
+
+      <!-- LEFT SIDE -->
+      <section class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-icon">✳</span>
+          YOUR PERSONAL PASSWORD STUDIO
+        </div>
+
+        <h1>
+          Better passwords.<br />
+          <em>Better peace</em><br />
+          of mind.
+        </h1>
+
+        <p class="hero-description">
+          Create unique, hard-to-guess passwords in seconds.
+          Designed to feel simple, made to use secure random
+          generation right inside your browser.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <span class="feature-icon">⌘</span>
+            <div>
+              Made for your accounts
+              <small>Choose length and character types.</small>
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-icon">◈</span>
+            <div>
+              Secure randomness
+              <small>Uses your browser's Web Crypto API.</small>
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-icon">↗</span>
+            <div>
+              Copy in one click
+              <small>Ready to paste into your password manager.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PASSWORD GENERATOR -->
+      <section class="generator-card" aria-labelledby="generator-title">
+
+        <div class="card-header">
+          <div class="card-heading">
+            <div class="card-heading-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 5 6v5c0 4.7 2.9 8.3 7 10 4.1-1.7 7-5.3 7-10V6l-7-3Z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <h2 id="generator-title">Password studio</h2>
+              <p>Your next layer of protection.</p>
+            </div>
+          </div>
+          <span class="ready-pill">READY TO CREATE</span>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="section-label">
+          <label for="passwordOutput">Your password</label>
+          <span class="sub-label" id="privacyCaption">Generated locally</span>
+        </div>
+
+        <div class="password-display">
+          <input
+            class="password-input"
+            id="passwordOutput"
+            type="password"
+            value=""
+            readonly
+            spellcheck="false"
+            autocomplete="off"
+            aria-label="Generated password"
+          />
+
+          <button class="icon-button" id="toggleVisibility"
+                  type="button" aria-label="Show password"
+                  title="Show or hide password">
+            <svg id="eyeIcon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+
+          <button class="icon-button" id="copyButton"
+                  type="button" aria-label="Copy password"
+                  title="Copy password">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+              <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- STRENGTH -->
+        <div class="strength-box">
+          <div class="strength-top">
+            <span class="strength-caption">ESTIMATED PASSWORD STRENGTH</span>
+            <span class="strength-status" id="strengthText">Excellent</span>
+          </div>
+
+          <div class="meter-track" id="strengthMeter" aria-label="Password strength">
+            <span class="meter-segment" data-level="1"></span>
+            <span class="meter-segment" data-level="2"></span>
+            <span class="meter-segment" data-level="3"></span>
+            <span class="meter-segment" data-level="4"></span>
+          </div>
+
+          <div class="strength-detail">
+            <span id="entropyText">Estimated entropy: —</span>
+            <span id="lengthSummary">20 characters</span>
+          </div>
+        </div>
+
+        <!-- LENGTH -->
+        <div class="controls-section">
+          <div class="section-label">
+            <label for="lengthSlider">Password length</label>
+            <output class="length-number" id="lengthValue" for="lengthSlider">20</output>
+          </div>
+
+          <div class="range-wrap">
+            <input
+              type="range"
+              id="lengthSlider"
+              min="8"
+              max="64"
+              step="1"
+              value="20"
+              aria-label="Password length"
+            />
+
+            <div class="range-labels">
+              <span>8 characters</span>
+              <span>64 characters</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OPTIONS -->
+        <div class="controls-section">
+          <div class="section-label">
+            <span>Character options</span>
+            <span class="sub-label">Pick your combination</span>
+          </div>
+
+          <div class="options-grid">
+
+            <div class="option">
+              <input type="checkbox" id="lowercase" checked />
+              <label for="lowercase">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Lowercase</span>
+                  <span class="option-detail">a – z</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="uppercase" checked />
+              <label for="uppercase">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Uppercase</span>
+                  <span class="option-detail">A – Z</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="numbers" checked />
+              <label for="numbers">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Numbers</span>
+                  <span class="option-detail">0 – 9</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="symbols" checked />
+              <label for="symbols">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Symbols</span>
+                  <span class="option-detail">! @ # $ % &amp;</span>
+                </span>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="option" style="margin-top: 10px;">
+            <input type="checkbox" id="excludeSimilar" />
+            <label for="excludeSimilar">
+              <span class="fake-check">✓</span>
+              <span>
+                <span class="option-name">Exclude similar characters</span>
+                <span class="option-detail">
+                  Avoid characters like O, 0, I, l and 1.
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="button-row">
+          <button class="clay-button primary-button"
+                  id="generateButton" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7v5h-5"></path>
+              <path d="M4 17v-5h5"></path>
+              <path d="M5.6 9A7 7 0 0 1 18 6l2 6"></path>
+              <path d="M18.4 15A7 7 0 0 1 6 18l-2-6"></path>
+            </svg>
+            Generate password
+          </button>
+
+          <button class="clay-button secondary-button"
+                  id="copyTextButton" type="button">
+            Copy
+          </button>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="notice">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="3"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          <span>
+            <strong>Your password stays in this browser.</strong>
+            This page does not send passwords to a server or save a password
+            history. Copy the password into a trusted password manager.
+          </span>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>Made with care by <strong>PebbleKey</strong>.</div>
+      <div>Secure randomness · No account · No API key</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* =========================================
+       PEBBLEKEY — SECURE PASSWORD GENERATOR
+    ========================================= */
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const passwordOutput = $("#passwordOutput");
+    const lengthSlider = $("#lengthSlider");
+    const lengthValue = $("#lengthValue");
+    const generateButton = $("#generateButton");
+    const copyButton = $("#copyButton");
+    const copyTextButton = $("#copyTextButton");
+    const toggleVisibility = $("#toggleVisibility");
+    const strengthText = $("#strengthText");
+    const entropyText = $("#entropyText");
+    const lengthSummary = $("#lengthSummary");
+    const toast = $("#toast");
+    const meterSegments = [...document.querySelectorAll(".meter-segment")];
+
+    let toastTimer;
+
+    const characterOptions = [
+      {
+        element: $("#lowercase"),
+        characters: "abcdefghijklmnopqrstuvwxyz"
+      },
+      {
+        element: $("#uppercase"),
+        characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      },
+      {
+        element: $("#numbers"),
+        characters: "0123456789"
+      },
+      {
+        element: $("#symbols"),
+        characters: "!@#$%^&*()-_=+[]{}:,.?"
+      }
+    ];
+
+    /*
+      Use the browser's cryptographically secure random generator.
+      Rejection sampling avoids the modulo bias caused by using
+      randomValue % maximum directly.
+    */
+
+    function secureRandomInt(maximum) {
+      if (!Number.isSafeInteger(maximum) || maximum < 1) {
+        throw new Error("Invalid random-number range.");
+      }
+
+      const range = 0x100000000;
+      const limit = range - (range % maximum);
+      const buffer = new Uint32Array(1);
+
+      while (true) {
+        crypto.getRandomValues(buffer);
+        const value = buffer[0];
+
+        if (value < limit) {
+          return value % maximum;
+        }
+      }
+    }
+
+    function secureShuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = secureRandomInt(i + 1);
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+
+      return array;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2300);
+    }
+
+    function getSelectedSets() {
+      const excludeSimilar = $("#excludeSimilar").checked;
+
+      const ambiguousCharacters = /[iloIO01]/g;
+
+      return characterOptions
+        .filter((option) => option.element.checked)
+        .map((option) => {
+          let characters = option.characters;
+
+          if (excludeSimilar) {
+            characters = characters.replace(ambiguousCharacters, "");
+          }
+
+          return characters;
+        })
+        .filter((characters) => characters.length > 0);
+    }
+
+    function updateStrength(password, poolSize) {
+      /*
+        This is a rough estimate, not a guarantee of crack time.
+        Estimate assumes uniformly random output from the selected pool.
+      */
+
+      const estimatedBits =
+        password.length * Math.log2(Math.max(poolSize, 1));
+
+      let level = 1;
+      let label = "Weak";
+
+      if (estimatedBits >= 100) {
+        level = 4;
+        label = "Excellent";
+      } else if (estimatedBits >= 70) {
+        level = 4;
+        label = "Very strong";
+      } else if (estimatedBits >= 50) {
+        level = 3;
+        label = "Strong";
+      } else if (estimatedBits >= 35) {
+        level = 2;
+        label = "Fair";
+      }
+
+      strengthText.textContent = label;
+
+      meterSegments.forEach((segment) => {
+        const segmentLevel = Number(segment.dataset.level);
+        segment.classList.toggle("active", segmentLevel <= level);
+      });
+
+      entropyText.textContent =
+        `Estimated entropy: ${Math.floor(estimatedBits)} bits`;
+
+      lengthSummary.textContent =
+        `${password.length} character${password.length === 1 ? "" : "s"}`;
+    }
+
+    function generatePassword() {
+      if (!window.crypto || typeof crypto.getRandomValues !== "function") {
+        passwordOutput.value = "";
+        strengthText.textContent = "Unavailable";
+        entropyText.textContent = "Secure randomness is not supported";
+        meterSegments.forEach((segment) => {
+          segment.classList.remove("active");
+        });
+        showToast("This browser doesn't support secure password generation.");
+        return;
+      }
+
+      const selectedSets = getSelectedSets();
+      const length = Number(lengthSlider.value);
+
+      if (selectedSets.length === 0) {
+        passwordOutput.value = "";
+        strengthText.textContent = "Choose an option";
+        entropyText.textContent = "Select at least one character type";
+        lengthSummary.textContent = `${length} characters`;
+
+        meterSegments.forEach((segment) => {
+          segment.classList.remove("active");
+        });
+
+        showToast("Select at least one character type.");
+        return;
+      }
+
+      const pool = selectedSets.join("");
+
+      if (length < selectedSets.length) {
+        showToast("Choose a longer password for these options.");
+        return;
+      }
+
+      try {
+        const characters = [];
+
+        /*
+          Ensure at least one character from every selected category.
+          The array is securely shuffled afterward.
+        */
+
+        for (const set of selectedSets) {
+          characters.push(set[secureRandomInt(set.length)]);
+        }
+
+        while (characters.length < length) {
+          characters.push(pool[secureRandomInt(pool.length)]);
+        }
+
+        secureShuffle(characters);
+
+        const password = characters.join("");
+
+        passwordOutput.value = password;
+        updateStrength(password, pool.length);
+
+        // Keep the output hidden after generating a new password.
+        passwordOutput.type = "password";
+        toggleVisibility.setAttribute("aria-label", "Show password");
+        toggleVisibility.title = "Show or hide password";
+
+        $("#eyeIcon").innerHTML = `
+          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+
+      } catch (error) {
+        console.error(error);
+        showToast("Couldn't generate a password. Try again.");
+      }
+    }
+
+    async function copyPassword() {
+      const password = passwordOutput.value;
+
+      if (!password) {
+        showToast("Generate a password first.");
+        return;
+      }
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(password);
+        } else {
+          // Fallback for browsers where the Clipboard API isn't available.
+          passwordOutput.type = "text";
+          passwordOutput.focus();
+          passwordOutput.select();
+          passwordOutput.setSelectionRange(0, password.length);
+
+          const successful = document.execCommand("copy");
+
+          passwordOutput.setSelectionRange(0, 0);
+
+          if (!successful) {
+            throw new Error("Copy command failed.");
+          }
+        }
+
+        showToast("Password copied to clipboard.");
+      } catch (error) {
+        console.error(error);
+        showToast("Copy failed. Select the password and copy it manually.");
+        passwordOutput.type = "text";
+        passwordOutput.focus();
+        passwordOutput.select();
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const isHidden = passwordOutput.type === "password";
+
+      passwordOutput.type = isHidden ? "text" : "password";
+
+      toggleVisibility.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+      );
+
+      toggleVisibility.title = isHidden ? "Hide password" : "Show password";
+
+      if (isHidden) {
+        $("#eyeIcon").innerHTML = `
+          <path d="M3 3 21 21"></path>
+          <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+          <path d="M9.9 5.2A10.5 10.5 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.9"></path>
+          <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4-.8"></path>
+        `;
+      } else {
+        $("#eyeIcon").innerHTML = `
+          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function updateLengthLabel() {
+      const length = Number(lengthSlider.value);
+
+      lengthValue.value = length;
+      lengthValue.textContent = length;
+
+      // Keep the length display responsive to slider movement.
+      if (passwordOutput.value) {
+        generatePassword();
+      } else {
+        lengthSummary.textContent = `${length} characters`;
+      }
+    }
+
+    // Main controls
+    generateButton.addEventListener("click", generatePassword);
+    copyButton.addEventListener("click", copyPassword);
+    copyTextButton.addEventListener("click", copyPassword);
+    toggleVisibility.addEventListener("click", togglePasswordVisibility);
+
+    // Keep settings and password synchronized.
+    lengthSlider.addEventListener("input", updateLengthLabel);
+
+    characterOptions.forEach(({ element }) => {
+      element.addEventListener("change", generatePassword);
+    });
+
+    $("#excludeSimilar").addEventListener("change", generatePassword);
+
+    // Generate the initial password as soon as the page loads.
+    generatePassword();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f2ed" />
+  <title>PebbleKey — Secure Password Generator</title>
+
+  <style>
+    /* =========================================
+       PEBBLEKEY — CLAY DESIGN SYSTEM
+    ========================================= */
+
+    :root {
+      --bg: #f5f2ed;
+      --surface: #fbf9f5;
+      --surface-2: #f0ede6;
+      --ink: #30362f;
+      --muted: #85877d;
+      --green: #687c60;
+      --green-dark: #52654b;
+      --green-soft: #e2e9dc;
+      --lavender: #e7e0f1;
+      --peach: #f3ded2;
+      --yellow: #f2e7bf;
+      --line: rgba(69, 75, 61, 0.10);
+      --shadow:
+        12px 12px 26px rgba(78, 76, 62, 0.09),
+        -10px -10px 24px rgba(255, 255, 255, 0.85);
+      --shadow-small:
+        6px 6px 13px rgba(78, 76, 62, 0.09),
+        -5px -5px 12px rgba(255, 255, 255, 0.9);
+      --shadow-pressed:
+        inset 4px 4px 8px rgba(78, 76, 62, 0.09),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.85);
+      --radius: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(
+          circle at 7% 12%,
+          rgba(226, 233, 220, 0.8),
+          transparent 27rem
+        ),
+        radial-gradient(
+          circle at 92% 60%,
+          rgba(231, 224, 241, 0.65),
+          transparent 28rem
+        ),
+        var(--bg);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(104, 124, 96, 0.40);
+      outline-offset: 4px;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    ::selection {
+      background: #dce7d5;
+      color: #30362f;
+    }
+
+    .app {
+      width: min(1160px, calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .topbar {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--green);
+      border-radius: 15px;
+      box-shadow:
+        5px 5px 10px rgba(68, 88, 62, 0.22),
+        -4px -4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    .brand-mark svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .brand-name span {
+      color: var(--green);
+    }
+
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 15px;
+      border: 1px solid rgba(104, 124, 96, 0.12);
+      border-radius: 999px;
+      background: rgba(251, 249, 245, 0.75);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .privacy-dot {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #6ca76c;
+      box-shadow: 0 0 0 4px rgba(108, 167, 108, 0.13);
+    }
+
+    /* =========================================
+       HERO
+    ========================================= */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 0.93fr 1.07fr;
+      align-items: center;
+      gap: clamp(34px, 6vw, 78px);
+      padding: 66px 0 62px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 23px;
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-icon {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      font-size: 15px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 560px;
+      font-size: clamp(40px, 5.4vw, 68px);
+      font-weight: 850;
+      line-height: 1.03;
+      letter-spacing: -3.8px;
+    }
+
+    .hero h1 em {
+      color: var(--green);
+      font-style: normal;
+    }
+
+    .hero-description {
+      max-width: 440px;
+      margin: 24px 0 0;
+      color: #77796f;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .feature-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      color: var(--green);
+      font-size: 16px;
+    }
+
+    .feature small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 450;
+    }
+
+    /* =========================================
+       CLAY SURFACES
+    ========================================= */
+
+    .generator-card {
+      position: relative;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 30px;
+      background: rgba(251, 249, 245, 0.86);
+      box-shadow:
+        18px 20px 46px rgba(74, 72, 61, 0.11),
+        -12px -12px 30px rgba(255, 255, 255, 0.82);
+      animation: cardEnter 650ms cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .generator-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      border-radius: 99px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.95),
+        transparent
+      );
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 23px;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-heading-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: var(--green-dark);
+      background: var(--green-soft);
+      box-shadow: var(--shadow-small);
+    }
+
+    .card-heading-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .card-heading h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 850;
+      letter-spacing: -0.35px;
+    }
+
+    .card-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .ready-pill {
+      padding: 7px 10px;
+      border-radius: 99px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    /* =========================================
+       PASSWORD DISPLAY
+    ========================================= */
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 11px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sub-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .password-display {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(100, 110, 91, 0.06);
+      border-radius: 18px;
+      background: #f0eee8;
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .password-input {
+      min-width: 0;
+      width: 100%;
+      height: 43px;
+      padding: 0 5px;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #3b4c35;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.4px;
+    }
+
+    .password-input:focus-visible {
+      outline: 2px solid rgba(104, 124, 96, 0.35);
+      outline-offset: 0;
+      border-radius: 5px;
+    }
+
+    .icon-button {
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
+      color: var(--green-dark);
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+      transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .icon-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .icon-button:active {
+      transform: translateY(1px);
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .icon-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* =========================================
+       STRENGTH METER
+    ========================================= */
+
+    .strength-box {
+      margin-top: 21px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .strength-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+
+    .strength-caption {
+      color: #77796f;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .strength-status {
+      font-size: 11px;
+      font-weight: 850;
+      color: var(--green-dark);
+    }
+
+    .meter-track {
+      width: 100%;
+      height: 7px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .meter-segment {
+      height: 100%;
+      flex: 1;
+      border-radius: 99px;
+      background: #e9e7df;
+      transition:
+        background 250ms ease,
+        transform 250ms ease;
+    }
+
+    .meter-segment.active {
+      background: #9cad8c;
+    }
+
+    .meter-segment.active[data-level="1"] {
+      background: #cf7a69;
+    }
+
+    .meter-segment.active[data-level="2"] {
+      background: #d8b464;
+    }
+
+    .meter-segment.active[data-level="3"] {
+      background: #a0b27f;
+    }
+
+    .meter-segment.active[data-level="4"] {
+      background: #5c8256;
+    }
+
+    .strength-detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       LENGTH CONTROL
+    ========================================= */
+
+    .controls-section {
+      margin-top: 25px;
+    }
+
+    .length-number {
+      min-width: 43px;
+      padding: 7px 10px;
+      text-align: center;
+      border-radius: 11px;
+      background: var(--lavender);
+      color: #63587d;
+      box-shadow: var(--shadow-small);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .range-wrap {
+      padding: 4px 2px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 7px;
+      margin: 15px 0 8px;
+      border-radius: 99px;
+      background: #e4e1d9;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      width: 23px;
+      height: 23px;
+      border: 4px solid var(--surface);
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow:
+        3px 4px 8px rgba(60, 75, 53, 0.22),
+        -2px -2px 5px white;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 4px solid var(--surface);
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       CHARACTER OPTIONS
+    ========================================= */
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 19px;
+    }
+
+    .option {
+      min-width: 0;
+      position: relative;
+    }
+
+    .option input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .option label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 55px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.83);
+      border-radius: 15px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+      cursor: pointer;
+      transition:
+        transform 150ms ease,
+        box-shadow 150ms ease,
+        background 150ms ease;
+    }
+
+    .option label:hover {
+      transform: translateY(-1px);
+    }
+
+    .option input:checked + label {
+      background: #edf1e8;
+      box-shadow: var(--shadow-pressed);
+      border-color: rgba(104, 124, 96, 0.12);
+    }
+
+    .option input:focus-visible + label {
+      outline: 3px solid rgba(104, 124, 96, 0.35);
+      outline-offset: 2px;
+    }
+
+    .fake-check {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d9d9cf;
+      border-radius: 7px;
+      background: #f7f5f0;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      transition: all 150ms ease;
+    }
+
+    .option input:checked + label .fake-check {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .option-name {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .option-detail {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================
+       CLAY BUTTONS
+    ========================================= */
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .clay-button {
+      min-height: 55px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 19px;
+      border: 1px solid rgba(255, 255, 255, 0.80);
+      border-radius: 17px;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow-small);
+      font-size: 12px;
+      font-weight: 850;
+      cursor: pointer;
+      transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        filter 160ms ease;
+    }
+
+    .clay-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.015);
+    }
+
+    .clay-button:active {
+      transform: translateY(2px) scale(0.99);
+      box-shadow: var(--shadow-pressed);
+    }
+
+    .clay-button svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .primary-button {
+      color: white;
+      background: var(--green);
+      box-shadow:
+        7px 8px 15px rgba(79, 101, 71, 0.24),
+        -4px -4px 11px rgba(255, 255, 255, 0.92);
+    }
+
+    .primary-button:hover {
+      background: #5e7456;
+    }
+
+    .secondary-button {
+      min-width: 100px;
+      background: var(--lavender);
+      color: #5c5272;
+    }
+
+    /* =========================================
+       EXTRAS / NOTICES
+    ========================================= */
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-top: 20px;
+      padding: 14px 15px;
+      border: 1px solid rgba(104, 124, 96, 0.09);
+      border-radius: 15px;
+      background: #edf0e7;
+      color: #596650;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .notice svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .notice strong {
+      font-weight: 850;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 24px;
+      bottom: 24px;
+      max-width: calc(100vw - 32px);
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      background: #354531;
+      color: white;
+      box-shadow: 0 12px 35px rgba(38, 49, 34, 0.25);
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: 220ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 0 32px;
+      border-top: 1px solid var(--line);
+      color: #8a8b80;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .footer strong {
+      color: #636c5b;
+    }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 43px;
+        padding: 48px 0;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+      }
+
+      .hero-description {
+        max-width: 560px;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .generator-card {
+        width: min(570px, 100%);
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .app {
+        width: calc(100% - 28px);
+      }
+
+      .topbar {
+        min-height: 72px;
+      }
+
+      .brand {
+        gap: 9px;
+        font-size: 18px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+        border-radius: 13px;
+      }
+
+      .privacy-badge {
+        padding: 9px 10px;
+        font-size: 9px;
+      }
+
+      .hero {
+        padding: 43px 0 34px;
+        gap: 35px;
+      }
+
+      .hero h1 {
+        font-size: clamp(39px, 11vw, 53px);
+        letter-spacing: -2.6px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        margin-top: 25px;
+      }
+
+      .generator-card {
+        padding: 19px;
+        border-radius: 24px;
+      }
+
+      .card-header {
+        gap: 8px;
+      }
+
+      .ready-pill {
+        font-size: 9px;
+        padding: 7px 8px;
+      }
+
+      .password-input {
+        font-size: 11px;
+      }
+
+      .options-grid {
+        gap: 9px;
+      }
+
+      .option label {
+        gap: 7px;
+        padding: 10px 8px;
+      }
+
+      .option-name {
+        font-size: 10px;
+      }
+
+      .button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .secondary-button {
+        width: 100%;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 19px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="PebbleKey home"
+         style="text-decoration:none;color:inherit;">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="3"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+            <path d="M12 14v3"></path>
+          </svg>
+        </span>
+        <span class="brand-name">pebble<span>key</span></span>
+      </a>
+
+      <div class="privacy-badge">
+        <span class="privacy-dot"></span>
+        LOCAL GENERATION
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="hero">
+
+      <!-- LEFT SIDE -->
+      <section class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-icon">✳</span>
+          YOUR PERSONAL PASSWORD STUDIO
+        </div>
+
+        <h1>
+          Better passwords.<br />
+          <em>Better peace</em><br />
+          of mind.
+        </h1>
+
+        <p class="hero-description">
+          Create unique, hard-to-guess passwords in seconds.
+          Designed to feel simple, made to use secure random
+          generation right inside your browser.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <span class="feature-icon">⌘</span>
+            <div>
+              Made for your accounts
+              <small>Choose length and character types.</small>
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-icon">◈</span>
+            <div>
+              Secure randomness
+              <small>Uses your browser's Web Crypto API.</small>
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-icon">↗</span>
+            <div>
+              Copy in one click
+              <small>Ready to paste into your password manager.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PASSWORD GENERATOR -->
+      <section class="generator-card" aria-labelledby="generator-title">
+
+        <div class="card-header">
+          <div class="card-heading">
+            <div class="card-heading-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 5 6v5c0 4.7 2.9 8.3 7 10 4.1-1.7 7-5.3 7-10V6l-7-3Z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <h2 id="generator-title">Password studio</h2>
+              <p>Your next layer of protection.</p>
+            </div>
+          </div>
+          <span class="ready-pill">READY TO CREATE</span>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="section-label">
+          <label for="passwordOutput">Your password</label>
+          <span class="sub-label" id="privacyCaption">Generated locally</span>
+        </div>
+
+        <div class="password-display">
+          <input
+            class="password-input"
+            id="passwordOutput"
+            type="password"
+            value=""
+            readonly
+            spellcheck="false"
+            autocomplete="off"
+            aria-label="Generated password"
+          />
+
+          <button class="icon-button" id="toggleVisibility"
+                  type="button" aria-label="Show password"
+                  title="Show or hide password">
+            <svg id="eyeIcon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+
+          <button class="icon-button" id="copyButton"
+                  type="button" aria-label="Copy password"
+                  title="Copy password">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+              <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- STRENGTH -->
+        <div class="strength-box">
+          <div class="strength-top">
+            <span class="strength-caption">ESTIMATED PASSWORD STRENGTH</span>
+            <span class="strength-status" id="strengthText">Excellent</span>
+          </div>
+
+          <div class="meter-track" id="strengthMeter" aria-label="Password strength">
+            <span class="meter-segment" data-level="1"></span>
+            <span class="meter-segment" data-level="2"></span>
+            <span class="meter-segment" data-level="3"></span>
+            <span class="meter-segment" data-level="4"></span>
+          </div>
+
+          <div class="strength-detail">
+            <span id="entropyText">Estimated entropy: —</span>
+            <span id="lengthSummary">20 characters</span>
+          </div>
+        </div>
+
+        <!-- LENGTH -->
+        <div class="controls-section">
+          <div class="section-label">
+            <label for="lengthSlider">Password length</label>
+            <output class="length-number" id="lengthValue" for="lengthSlider">20</output>
+          </div>
+
+          <div class="range-wrap">
+            <input
+              type="range"
+              id="lengthSlider"
+              min="8"
+              max="64"
+              step="1"
+              value="20"
+              aria-label="Password length"
+            />
+
+            <div class="range-labels">
+              <span>8 characters</span>
+              <span>64 characters</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OPTIONS -->
+        <div class="controls-section">
+          <div class="section-label">
+            <span>Character options</span>
+            <span class="sub-label">Pick your combination</span>
+          </div>
+
+          <div class="options-grid">
+
+            <div class="option">
+              <input type="checkbox" id="lowercase" checked />
+              <label for="lowercase">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Lowercase</span>
+                  <span class="option-detail">a – z</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="uppercase" checked />
+              <label for="uppercase">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Uppercase</span>
+                  <span class="option-detail">A – Z</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="numbers" checked />
+              <label for="numbers">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Numbers</span>
+                  <span class="option-detail">0 – 9</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <input type="checkbox" id="symbols" checked />
+              <label for="symbols">
+                <span class="fake-check">✓</span>
+                <span>
+                  <span class="option-name">Symbols</span>
+                  <span class="option-detail">! @ # $ % &amp;</span>
+                </span>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="option" style="margin-top: 10px;">
+            <input type="checkbox" id="excludeSimilar" />
+            <label for="excludeSimilar">
+              <span class="fake-check">✓</span>
+              <span>
+                <span class="option-name">Exclude similar characters</span>
+                <span class="option-detail">
+                  Avoid characters like O, 0, I, l and 1.
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="button-row">
+          <button class="clay-button primary-button"
+                  id="generateButton" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7v5h-5"></path>
+              <path d="M4 17v-5h5"></path>
+              <path d="M5.6 9A7 7 0 0 1 18 6l2 6"></path>
+              <path d="M18.4 15A7 7 0 0 1 6 18l-2-6"></path>
+            </svg>
+            Generate password
+          </button>
+
+          <button class="clay-button secondary-button"
+                  id="copyTextButton" type="button">
+            Copy
+          </button>
+        </div>
+
+        <!-- PRIVACY -->
+        <div class="notice">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="3"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          <span>
+            <strong>Your password stays in this browser.</strong>
+            This page does not send passwords to a server or save a password
+            history. Copy the password into a trusted password manager.
+          </span>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>Made with care by <strong>PebbleKey</strong>.</div>
+      <div>Secure randomness · No account · No API key</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* =========================================
+       PEBBLEKEY — SECURE PASSWORD GENERATOR
+    ========================================= */
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const passwordOutput = $("#passwordOutput");
+    const lengthSlider = $("#lengthSlider");
+    const lengthValue = $("#lengthValue");
+    const generateButton = $("#generateButton");
+    const copyButton = $("#copyButton");
+    const copyTextButton = $("#copyTextButton");
+    const toggleVisibility = $("#toggleVisibility");
+    const strengthText = $("#strengthText");
+    const entropyText = $("#entropyText");
+    const lengthSummary = $("#lengthSummary");
+    const toast = $("#toast");
+    const meterSegments = [...document.querySelectorAll(".meter-segment")];
+
+    let toastTimer;
+
+    const characterOptions = [
+      {
+        element: $("#lowercase"),
+        characters: "abcdefghijklmnopqrstuvwxyz"
+      },
+      {
+        element: $("#uppercase"),
+        characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      },
+      {
+        element: $("#numbers"),
+        characters: "0123456789"
+      },
+      {
+        element: $("#symbols"),
+        characters: "!@#$%^&*()-_=+[]{}:,.?"
+      }
+    ];
+
+    /*
+      Use the browser's cryptographically secure random generator.
+      Rejection sampling avoids the modulo bias caused by using
+      randomValue % maximum directly.
+    */
+
+    function secureRandomInt(maximum) {
+      if (!Number.isSafeInteger(maximum) || maximum < 1) {
+        throw new Error("Invalid random-number range.");
+      }
+
+      const range = 0x100000000;
+      const limit = range - (range % maximum);
+      const buffer = new Uint32Array(1);
+
+      while (true) {
+        crypto.getRandomValues(buffer);
+        const value = buffer[0];
+
+        if (value < limit) {
+          return value % maximum;
+        }
+      }
+    }
+
+    function secureShuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = secureRandomInt(i + 1);
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+
+      return array;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2300);
+    }
+
+    function getSelectedSets() {
+      const excludeSimilar = $("#excludeSimilar").checked;
+
+      const ambiguousCharacters = /[iloIO01]/g;
+
+      return characterOptions
+        .filter((option) => option.element.checked)
+        .map((option) => {
+          let characters = option.characters;
+
+          if (excludeSimilar) {
+            characters = characters.replace(ambiguousCharacters, "");
+          }
+
+          return characters;
+        })
+        .filter((characters) => characters.length > 0);
+    }
+
+    function updateStrength(password, poolSize) {
+      /*
+        This is a rough estimate, not a guarantee of crack time.
+        Estimate assumes uniformly random output from the selected pool.
+      */
+
+      const estimatedBits =
+        password.length * Math.log2(Math.max(poolSize, 1));
+
+      let level = 1;
+      let label = "Weak";
+
+      if (estimatedBits >= 100) {
+        level = 4;
+        label = "Excellent";
+      } else if (estimatedBits >= 70) {
+        level = 4;
+        label = "Very strong";
+      } else if (estimatedBits >= 50) {
+        level = 3;
+        label = "Strong";
+      } else if (estimatedBits >= 35) {
+        level = 2;
+        label = "Fair";
+      }
+
+      strengthText.textContent = label;
+
+      meterSegments.forEach((segment) => {
+        const segmentLevel = Number(segment.dataset.level);
+        segment.classList.toggle("active", segmentLevel <= level);
+      });
+
+      entropyText.textContent =
+        `Estimated entropy: ${Math.floor(estimatedBits)} bits`;
+
+      lengthSummary.textContent =
+        `${password.length} character${password.length === 1 ? "" : "s"}`;
+    }
+
+    function generatePassword() {
+      if (!window.crypto || typeof crypto.getRandomValues !== "function") {
+        passwordOutput.value = "";
+        strengthText.textContent = "Unavailable";
+        entropyText.textContent = "Secure randomness is not supported";
+        meterSegments.forEach((segment) => {
+          segment.classList.remove("active");
+        });
+        showToast("This browser doesn't support secure password generation.");
+        return;
+      }
+
+      const selectedSets = getSelectedSets();
+      const length = Number(lengthSlider.value);
+
+      if (selectedSets.length === 0) {
+        passwordOutput.value = "";
+        strengthText.textContent = "Choose an option";
+        entropyText.textContent = "Select at least one character type";
+        lengthSummary.textContent = `${length} characters`;
+
+        meterSegments.forEach((segment) => {
+          segment.classList.remove("active");
+        });
+
+        showToast("Select at least one character type.");
+        return;
+      }
+
+      const pool = selectedSets.join("");
+
+      if (length < selectedSets.length) {
+        showToast("Choose a longer password for these options.");
+        return;
+      }
+
+      try {
+        const characters = [];
+
+        /*
+          Ensure at least one character from every selected category.
+          The array is securely shuffled afterward.
+        */
+
+        for (const set of selectedSets) {
+          characters.push(set[secureRandomInt(set.length)]);
+        }
+
+        while (characters.length < length) {
+          characters.push(pool[secureRandomInt(pool.length)]);
+        }
+
+        secureShuffle(characters);
+
+        const password = characters.join("");
+
+        passwordOutput.value = password;
+        updateStrength(password, pool.length);
+
+        // Keep the output hidden after generating a new password.
+        passwordOutput.type = "password";
+        toggleVisibility.setAttribute("aria-label", "Show password");
+        toggleVisibility.title = "Show or hide password";
+
+        $("#eyeIcon").innerHTML = `
+          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+
+      } catch (error) {
+        console.error(error);
+        showToast("Couldn't generate a password. Try again.");
+      }
+    }
+
+    async function copyPassword() {
+      const password = passwordOutput.value;
+
+      if (!password) {
+        showToast("Generate a password first.");
+        return;
+      }
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(password);
+        } else {
+          // Fallback for browsers where the Clipboard API isn't available.
+          passwordOutput.type = "text";
+          passwordOutput.focus();
+          passwordOutput.select();
+          passwordOutput.setSelectionRange(0, password.length);
+
+          const successful = document.execCommand("copy");
+
+          passwordOutput.setSelectionRange(0, 0);
+
+          if (!successful) {
+            throw new Error("Copy command failed.");
+          }
+        }
+
+        showToast("Password copied to clipboard.");
+      } catch (error) {
+        console.error(error);
+        showToast("Copy failed. Select the password and copy it manually.");
+        passwordOutput.type = "text";
+        passwordOutput.focus();
+        passwordOutput.select();
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const isHidden = passwordOutput.type === "password";
+
+      passwordOutput.type = isHidden ? "text" : "password";
+
+      toggleVisibility.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+      );
+
+      toggleVisibility.title = isHidden ? "Hide password" : "Show password";
+
+      if (isHidden) {
+        $("#eyeIcon").innerHTML = `
+          <path d="M3 3 21 21"></path>
+          <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+          <path d="M9.9 5.2A10.5 10.5 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.9"></path>
+          <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4-.8"></path>
+        `;
+      } else {
+        $("#eyeIcon").innerHTML = `
+          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function updateLengthLabel() {
+      const length = Number(lengthSlider.value);
+
+      lengthValue.value = length;
+      lengthValue.textContent = length;
+
+      // Keep the length display responsive to slider movement.
+      if (passwordOutput.value) {
+        generatePassword();
+      } else {
+        lengthSummary.textContent = `${length} characters`;
+      }
+    }
+
+    // Main controls
+    generateButton.addEventListener("click", generatePassword);
+    copyButton.addEventListener("click", copyPassword);
+    copyTextButton.addEventListener("click", copyPassword);
+    toggleVisibility.addEventListener("click", togglePasswordVisibility);
+
+    // Keep settings and password synchronized.
+    lengthSlider.addEventListener("input", updateLengthLabel);
+
+    characterOptions.forEach(({ element }) => {
+      element.addEventListener("change", generatePassword);
+    });
+
+    $("#excludeSimilar").addEventListener("change", generatePassword);
+
+    // Generate the initial password as soon as the page loads.
+    generatePassword();
+  </script>
+</body>
+</html>
